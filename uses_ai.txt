@@ -1,1 +1,4 @@
 Gemini: Makefile Creation with screenshot given of the current directory
+Gemini: Error Handling in Main given the current main code
+Gemini: Organization of functions using the MVC model given certain function names and full tp10 code
+Github Copilot: Lots of bug-fixes/error-fixes in IDE, just selecting the bug/error and clicking fix, it says what I should change to fix the bug

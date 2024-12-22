@@ -23,4 +23,6 @@ bool Game::isGameOver(){
     return lives==0;
 }
 
-void Level::loadLevel();
+void loadLevel(const std::string& filename){
+    printf("load");
+}

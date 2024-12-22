@@ -40,7 +40,7 @@ class Ball: public ModelObject, public Circle {
 };
 
 class Brick: public ModelObject, public Rectangle {
-    Rectangle(Point center, float w, float h);
+    Brick(Point center, float w, float h);
 };
 
 class Score: public ModelObject, public IntRectangle {
