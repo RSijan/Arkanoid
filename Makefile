@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = g++
-CXXFLAGS = -std=c++17 -Wall -Wextra -Werror \
+CXXFLAGS = -Wall -Wextra -Werror \
            -Wpedantic -Wconversion -Wsign-conversion \
            -Wfloat-equal -Wshadow -Wuninitialized \
            -Wunused-parameter -Wmissing-declarations -Wmissing-include-dirs \
