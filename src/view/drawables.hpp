@@ -1,22 +1,13 @@
 #ifndef DRAWABLES_HPP
 #define DRAWABLES_HPP
 
-#include <allegro5/allegro5.h>
-#include <allegro5/allegro_font.h>
-
 #include <string>
 
+#include "../utils/allegro_includes.hpp"
 #include "../utils/observer.hpp"
+#include "../utils/point.hpp"
 
 using namespace std;
-
-struct Point {
-  float x = 0, y = 0;
-};
-
-struct PointInt {
-  int x = 0, y = 0;
-};
 
 // Colors defined in your code
 extern const ALLEGRO_COLOR COLOR_RED;
@@ -35,7 +26,7 @@ extern ALLEGRO_FONT *font;
 
 class Drawable {
  protected:
-  Drawable()                             = default;
+  Drawable()                            = default;
   Drawable(const Drawable &)            = default;
   Drawable(Drawable &&)                 = default;
   Drawable &operator=(const Drawable &) = default;
@@ -67,12 +58,13 @@ class Text: public virtual Drawable {
   bool   contains(Point p) const override;
 };
 
-class Rectangle : public virtual Drawable {  
+class Rectangle : public virtual Drawable { 
+protected:
   Point center_;
   float         w_, h_;
   ALLEGRO_COLOR frameColor_, fillColor_;
 
- public:
+public:
   Rectangle(Point center, float w, float h,
             ALLEGRO_COLOR frameColor = COLOR_BLACK,
             ALLEGRO_COLOR fillColor  = COLOR_WHITE) noexcept;
@@ -109,6 +101,7 @@ class TextRectangle : public Text, public Rectangle {
   TextRectangle &operator=(TextRectangle &&)      = default;
 
  public:
+
   TextRectangle(Point center, float w, float h, string text);
   void draw() override;
   bool contains(Point p) const override;
@@ -124,11 +117,13 @@ class IntRectangle : public TextRectangle, public virtual Subject {
 
  protected:
   IntRectangle(const IntRectangle &)            = default;
-  IntRectangle(IntRectangle &&)                 = default;
+  // IntRectangle(IntRectangle &&)                 = default;
   IntRectangle &operator=(const IntRectangle &) = default;
-  IntRectangle &operator=(IntRectangle &&)      = default;
+  // IntRectangle &operator=(IntRectangle &&)      = default;
 
  public:
+  IntRectangle(IntRectangle&&) = delete;
+  IntRectangle& operator=(IntRectangle&&) = delete;
   IntRectangle(Point center, float w, float h, int theInteger);
        operator int() const;
   int  getInteger() const;

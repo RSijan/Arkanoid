@@ -80,3 +80,13 @@ void DisplayInitializer::must_init(bool test, const char *description) {
 void DisplayInitializer::must_init(void *test, const char *description) {
   must_init(test != nullptr, description);
 }
+
+DisplayManager::DisplayManager(ALLEGRO_DISPLAY* display):display(display) {}
+DisplayManager::~DisplayManager() {}
+void DisplayManager::clearDisplay() {
+   al_clear_to_color(al_map_rgb(0, 0, 0));
+}
+
+void DisplayManager::flipDisplay() {
+  al_flip_display();
+}

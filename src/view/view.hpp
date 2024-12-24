@@ -6,25 +6,13 @@
 #include <stdexcept>
 #include <iostream>
 
-#include "allegro5/allegro5.h"
-#include "allegro5/allegro_font.h"
-#include "allegro5/allegro_ttf.h"
-#include "allegro5/allegro_primitives.h"
-
+#include "../utils/allegro_includes.hpp"
 #include "drawables.hpp"
 #include "../model/model.hpp"
 
-struct Point {
-  float x = 0, y = 0;
-};
-
-struct PointInt {
-  int x = 0, y = 0;
-};
-
 class Text;
 
-class ViewObject: public virtual Drawable {
+class ViewObject {
 protected:
   ViewObject() = default;
   ViewObject(const ViewObject&)= default;
@@ -62,6 +50,19 @@ public:
 
 private:
   ALLEGRO_DISPLAY *display = nullptr;
+};
+
+class DisplayManager: public ViewObject {
+public:
+  DisplayManager() = delete;
+  DisplayManager(const DisplayManager&) = delete;
+  DisplayManager& operator=(const DisplayManager&) = delete;
+  explicit DisplayManager(ALLEGRO_DISPLAY* display);
+  ~DisplayManager();
+  void clearDisplay();
+  void flipDisplay();
+private:
+  ALLEGRO_DISPLAY* display;
 };
 
 #endif // VIEW_HPP

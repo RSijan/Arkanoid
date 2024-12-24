@@ -1,39 +1,55 @@
 # Compiler and flags
-CC = g++
-CXXFLAGS = -Wall -Wextra -Werror \
-           -Wpedantic -Wconversion -Wsign-conversion \
+CXX = g++
+CXXFLAGS = -Wall -g -std=c++17 \
+           -Wextra -Wpedantic \
+           -Wconversion -Wsign-conversion \
            -Wfloat-equal -Wshadow -Wuninitialized \
            -Wunused-parameter -Wmissing-declarations -Wmissing-include-dirs \
            -Wnoexcept -Wnon-virtual-dtor -Weffc++
+		   -fsanitize=address -fsanitize=undefined
 
-# Directories
+
+# Include directories
+INC_DIR = -Isrc
+
+# Source directories
 SRC_DIR = src
+
+# Object file directory
 OBJ_DIR = obj
 
-# Source files
-SOURCES = $(shell find $(SRC_DIR) -name "*.cpp")
-
-# Object files (matching source files)
-OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SOURCES))
+# Source files (list your .cpp files here)
+SRC_FILES = $(shell find $(SRC_DIR) -name '*.cpp')
+OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
 
 # Executable name
 TARGET = arkanoid
 
-# Default rule
+# Libraries for allegro
+LIBS = -lallegro -lallegro_primitives -lallegro_ttf -lallegro_font -lallegro_main
+
+# Linker flags (add allegro libraries here)
+LDFLAGS = $(LIBS)
+
+# Object directory
+OBJECT_DIR := $(OBJ_DIR)
+
+# Default target
 all: $(TARGET)
 
-# Link the object files to create the executable
-$(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) -o $@ $^
+# Compile .cpp files into .o files
+$(OBJECT_DIR)/%.o: $(SRC_DIR)/%.cpp
+	@echo "Compiling: $< into $@"
+	@mkdir -p $(OBJECT_DIR)/$(dir $(patsubst $(SRC_DIR)/%,%,$<))
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(INC_DIR)
 
-# Compile the source files to object files
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(shell dirname $@)  # Create intermediate object directory
-	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean up object files
+# Link object files into the final executable
+$(TARGET): $(OBJ_FILES)
+	$(CXX) $(CXXFLAGS)  $(OBJ_FILES) -o $(TARGET) $(LDFLAGS)
 clean:
-	rm -rf $(OBJ_DIR) $(TARGET)
+	rm -rf $(OBJ_DIR)
+	rm -f $(TARGET)
 
-# Phony targets
-.PHONY: all clean
+run:
+	./$(TARGET)

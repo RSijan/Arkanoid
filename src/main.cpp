@@ -8,15 +8,19 @@
 const int windowWidth = 500;
 const int windowHeight = 500;
 const int fontSize = 20;
-const std::string fontPath = "SourceCodePro-Regular.ttf";
+const std::string fontPath = "font/SourceCodePro-Regular.ttf";
 
 
 int main() {
+    if (!al_init()) {
+        std::cerr << "Failed to initialize Allegro!" << std::endl;
+        return 1;
+    }
+
     srand(static_cast<unsigned>(time(nullptr)));
-    
     try {
-        DisplayInitializer DisplayInitializer(windowWidth, windowHeight, fontSize, fontPath);
-        ALLEGRO_DISPLAY* display = DisplayInitializer.getDisplay();
+        DisplayInitializer displayInitializer(windowWidth, windowHeight, fontSize, fontPath);
+        ALLEGRO_DISPLAY* display = displayInitializer.getDisplay();
 
         Controller controller(display);
 
@@ -26,5 +30,6 @@ int main() {
         std::cerr << e.what() << std::endl;
         return -1;
     }
+
     return 0;
 }
